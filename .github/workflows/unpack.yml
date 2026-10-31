@@ -1,0 +1,29 @@
+
+name: Unpack DEY WII ME
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repository
+        uses: actions/checkout@v4
+
+      - name: Extract website
+        run: |
+          unzip -o dey-wii-me-starter.zip -d /tmp/project
+          cp -R /tmp/project/dey-wii-me/. .
+          rm dey-wii-me-starter.zip
+
+      - name: Save website files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Install DEY WII ME website files"
+          git push
